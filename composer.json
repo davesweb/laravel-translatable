@@ -1,0 +1,17 @@
+{
+    "name": "davesweb/laravel-translatable",
+    "description": "Add translations to Eloquent models",
+    "type": "library",
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^8.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Davesweb\\LaravelTranslatable\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
