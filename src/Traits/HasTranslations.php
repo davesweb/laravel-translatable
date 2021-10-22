@@ -33,6 +33,18 @@ trait HasTranslations
         return $this->translationsCache[$locale] ?? null;
     }
     
+    public function translate(string $key): mixed
+    {
+        $translation = $this->getTranslation($this->getCurrentLocale());
+        
+        return $translation->{$key};
+    }
+    
+    public function translation(): ?TranslationModel
+    {
+        return $this->getTranslation($this->getCurrentLocale());
+    }
+    
     protected function getCurrentLocale(): string
     {
         return app()->getLocale();
