@@ -12,8 +12,8 @@ class TranslationModel extends Model
     {
         return $this->belongsTo(
             $this->translates,
-            $this->primaryKey,
-            $this->getTranslatesOwnerKey()
+            $this->getTranslatesOwnerKey(),
+            $this->primaryKey
         );
     }
     

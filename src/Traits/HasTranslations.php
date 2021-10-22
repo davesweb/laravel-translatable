@@ -36,6 +36,10 @@ trait HasTranslations
     public function translate(string $key): mixed
     {
         $translation = $this->getTranslation($this->getCurrentLocale());
+    
+        if ($translation === null) {
+            return null;
+        }
         
         return $translation->{$key};
     }
