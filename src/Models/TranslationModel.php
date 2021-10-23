@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
-class TranslationModel extends Model
+abstract class TranslationModel extends Model
 {
     public function translatesModel(): BelongsTo
     {
         return $this->belongsTo(
-            $this->translates,
+            $this->getTranslatesClassname(),
             $this->getTranslatesOwnerKey(),
             $this->primaryKey
         );
@@ -29,6 +29,15 @@ class TranslationModel extends Model
     
     private function getTranslatesOwnerKey(): string
     {
-        return Str::of($this->translates)->classBasename()->snake() . '_' . $this->getTranslatesObject()->primaryKey;
+        return Str::of($this->getTranslatesClassname())->classBasename()->snake() . '_' . $this->getTranslatesObject()->primaryKey;
+    }
+    
+    private function getTranslatesClassname(): string
+    {
+        if (property_exists($this, 'translates')) {
+            return $this->translates;
+        }
+        
+        return (string) Str::of(static::class)->classBasename()->replaceLast('Translation', '');
     }
 }
