@@ -36,7 +36,7 @@ trait HasTranslations
     {
         if (empty($this->translationsCache)) {
             foreach ($this->getTranslations() as $translation) {
-                $this->translationsCache[$locale] = $translation;
+                $this->translationsCache[$translation->locale] = $translation;
             }
         }
 

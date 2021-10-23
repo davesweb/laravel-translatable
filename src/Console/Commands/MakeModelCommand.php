@@ -14,5 +14,5 @@ class MakeModelCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected $description = 'Create a translatable modeland its translation.';
+    protected $description = 'Create a translatable model and its translation.';
 }
