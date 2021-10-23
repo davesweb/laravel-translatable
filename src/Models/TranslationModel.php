@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
+/**
+ * @property Model $translatesModel
+ */
 abstract class TranslationModel extends Model
 {
     public function translatesModel(): BelongsTo
@@ -19,7 +22,7 @@ abstract class TranslationModel extends Model
     
     public function getTranslatesModel(): Model
     {
-        return $this->translates_model;
+        return $this->translatesModel;
     }
     
     private function getTranslatesObject(): Model
