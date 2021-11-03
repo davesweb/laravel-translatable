@@ -42,7 +42,7 @@
             "vendor/bin/php-cs-fixer fix --allow-risky=yes"
         ],
         "test": [
-            "vendor\\bin\\phpunit.bat tests --colors --testdox"
+            "vendor/bin/phpunit tests --colors --testdox"
         ]
     }
 }
