@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: php-app
+    container_name: laravel-translatable-app
     working_dir: /var/www/
     volumes:
       - ./:/var/www
