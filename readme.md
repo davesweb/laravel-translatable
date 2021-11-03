@@ -80,7 +80,7 @@ docker-compose exec app bash
 
 ## Usage
 
-Because the translation are just a one-to-many relation of the model you can use them the same way as any other 
+Because the translations are just a one-to-many relation of the model you can use them the same way as any other 
 one-to-many relationship in Laravel. There are a few helper methods to make it easier to use the package, but the base 
 is just a relation.
 
@@ -144,7 +144,7 @@ $page = App\Page::query()->with('translations')->findOrFail(1);
 $englishTranslation = $page->translation();
 ```
 
-To get the translation of a translated attribute in the current locale the app is in you can call `translate('attribute')`.
+To get the value of a translated attribute in the current locale the app is in you can call `translate('attribute')`.
 
 ```php
 <?php
@@ -156,8 +156,8 @@ $page = App\Page::query()->with('translations')->findOrFail(1);
 $englishTitle = $page->translate('title');
 ```
 
-To get the translation of a translated attribute in a different locale then the current app locale is in you can call 
-`translate('attribute')` with the desired locale.
+To get the value of a translated attribute in a different locale then the current app locale is in you can call 
+`translate('attribute', 'locale')` with the desired locale.
 
 ```php
 <?php
