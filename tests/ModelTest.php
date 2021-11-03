@@ -8,7 +8,6 @@ use Davesweb\LaravelTranslatable\Tests\Models\TestModelTranslation;
 
 /**
  * @internal
- * @coversNothing
  */
 class ModelTest extends TestCase
 {
