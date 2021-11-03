@@ -17,42 +17,45 @@ composer require davesweb/laravel-translatable
   class, extend the `Davesweb\LaravelTranslatable\Models\TranslationModel` class.
 - Create a migration to create the database table for your translation model.
   There are also commands available for generating these models and migrations for you.
-  As long as the names of the translation model and the foreign key column follow the naming conventions, the
-  package will automatically find the correct models and set the correct relations.
-- The name of the translation model should be the same as the model that is being translated with the suffix
-  `Translation`, for example `App\Page` and `App\PageTranslation`.
-- The name of the foreign key column should be the name of the model that is being translated in snake case,
-  suffixed with the name of the primary key. For instance `page_id`.
-  If your model names differ from te naming convention you can specify them yourself on the models. For the
+  
+As long as the names of the translation model and the foreign key column follow the naming conventions, the
+package will automatically find the correct models and set the correct relations.
+
+The name of the translation model should be the same as the model that is being translated with the suffix
+`Translation`, for example `App\Page` and `App\PageTranslation`.
+
+The name of the foreign key column should be the name of the model that is being translated in snake case,
+suffixed with the name of the primary key. For instance `page_id`.
+If your model names differ from te naming convention you can specify them yourself on the models. For the
   model to be translated, add a `$translation` property.
   
-  ```php
-  <?php
-  
-  namespace App;
-  
-  use Illuminate\Database\Eloquent\Model;
-  
-  class Page extends Model
-  {
-      protected string $translation = App\DifferentPageTranslationName::class;
-  }
-  ```
-  
-  For translation models you can set the `translates` property.
+```php
+<?php
 
-  ```php
-  <?php
-  
-  namespace App;
-  
-  use Davesweb\LaravelTranslatable\Models\TranslationModel;
-  
-  class PageTranslation extends TranslationModel
-  {
-      protected string $translates = App\SomeOtherModel::class;
-  }
-  ```
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Page extends Model
+{
+    protected string $translation = App\DifferentPageTranslationName::class;
+}
+```
+
+For translation models you can set the `translates` property.
+
+```php
+<?php
+
+namespace App;
+
+use Davesweb\LaravelTranslatable\Models\TranslationModel;
+
+class PageTranslation extends TranslationModel
+{
+    protected string $translates = App\SomeOtherModel::class;
+}
+```
 
 ## Docker
 
