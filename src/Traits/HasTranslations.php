@@ -43,9 +43,9 @@ trait HasTranslations
         return $this->translationsCache[$locale] ?? null;
     }
 
-    public function translate(string $key): mixed
+    public function translate(string $key, ?string $locale = null): mixed
     {
-        $translation = $this->getTranslation($this->getCurrentLocale());
+        $translation = $this->getTranslation($locale ?? $this->getCurrentLocale());
 
         if (null === $translation) {
             return null;
