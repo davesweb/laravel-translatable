@@ -7,6 +7,7 @@ use Davesweb\LaravelTranslatable\Services\MigrationCreator;
 use Davesweb\LaravelTranslatable\Console\Commands\MakeModelCommand;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Davesweb\LaravelTranslatable\Console\Commands\MakeMigrationCommand;
+use Davesweb\LaravelTranslatable\Console\Commands\MakeTranslationCommand;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -16,6 +17,7 @@ class ServiceProvider extends IlluminateServiceProvider
             $this->commands([
                 MakeMigrationCommand::class,
                 MakeModelCommand::class,
+                MakeTranslationCommand::class,
             ]);
         }
     }

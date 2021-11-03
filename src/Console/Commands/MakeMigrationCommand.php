@@ -3,84 +3,63 @@
 namespace Davesweb\LaravelTranslatable\Console\Commands;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Composer;
-use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Database\Console\Migrations\TableGuesser;
-use Davesweb\LaravelTranslatable\Services\MigrationCreator;
 
 class MakeMigrationCommand extends Command
 {
     /**
      * {@inheritdoc}
      */
-    protected $signature = 'make:translatable-migration {name : The name of the migration}
-        {--path= : The location where the migration file should be created}
-        {--realpath : Indicate any provided migration file paths are pre-resolved absolute paths}
-        {--fullpath : Output the full path of the migration}
-    ';
+    protected $signature = 'make:translatable-migration {name : The name of the translatable model}';
 
     /**
      * {@inheritdoc}
      */
     protected $description = 'Create a migration file for a translatable model and its translation.';
 
-    private MigrationCreator $creator;
-
     private Composer $composer;
 
-    public function __construct(MigrationCreator $creator, Composer $composer)
+    public function __construct(Composer $composer)
     {
         parent::__construct();
 
-        $this->creator  = $creator;
         $this->composer = $composer;
     }
 
-    public function handle(Filesystem $files): int
+    public function handle(): int
     {
-        $name = Str::snake(trim($this->input->getArgument('name')));
+        $name = $this->argument('name');
 
-        [$table, $create] = TableGuesser::guess($name);
+        $translatableTable = (string) Str::of($name)->classBasename()->lower()->plural();
+        $translationTable  = (string) Str::of($name)->classBasename()->lower()->append('_translations');
+        $foreignKeyColumn  = (string) Str::of($name)->classBasename()->lower()->append('_id');
+        $filename          = Carbon::now()->format('Y_m_d_His_') . 'create_' . $translationTable . '_table';
+        $className         = 'Create' . Str::of($translatableTable)->ucfirst() . 'Table';
 
-        $this->writeMigration($name, $table, $create);
+        $stub = file_get_contents(__DIR__ . '/../../../stubs/migration.stub');
+
+        $stub = Str::of($stub)->replace([
+            '{{ classname }}',
+            '{{ translatable_table }}',
+            '{{ translations_table }}',
+            '{{ foreign_key_column }}',
+        ], [
+            $className,
+            $translatableTable,
+            $translationTable,
+            $foreignKeyColumn,
+        ]);
+
+        file_put_contents(database_path('migrations/' . $filename . '.php'), $stub);
+
+        $this->info('Migration ' . $filename . ' created, dumping autoload files...');
 
         $this->composer->dumpAutoloads();
 
+        $this->info('Autoload files regenerated.');
+
         return parent::SUCCESS;
-    }
-
-    protected function writeMigration($name, $table, $create)
-    {
-        $file = $this->creator->create(
-            $name,
-            $this->getMigrationPath(),
-            $table,
-            $create
-        );
-
-        if (!$this->option('fullpath')) {
-            $file = pathinfo($file, PATHINFO_FILENAME);
-        }
-
-        $this->line("<info>Created Migration:</info> {$file}");
-    }
-
-    protected function getMigrationPath()
-    {
-        if (!is_null($targetPath = $this->input->getOption('path'))) {
-            return !$this->usingRealPath()
-                ? $this->laravel->basePath() . '/' . $targetPath
-                : $targetPath;
-        }
-
-        return parent::getMigrationPath();
-    }
-
-    private function getStubContents(Filesystem $files): string
-    {
-        $stub = __DIR__ . '../../../stubs/migration.stub';
-
-        return $files->get($stub);
     }
 }
