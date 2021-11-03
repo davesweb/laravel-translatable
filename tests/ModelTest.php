@@ -100,7 +100,7 @@ class ModelTest extends TestCase
         /** @var TestModel $testModel */
         $testModel = TestModel::query()->findOrFail(1);
 
-        $name = $testModel->getTranslation('en')->name;
+        $name    = $testModel->getTranslation('en')->name;
         $content = $testModel->getTranslation('en')->content;
 
         $this->assertEquals('English name', $name);

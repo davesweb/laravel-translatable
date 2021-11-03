@@ -2,8 +2,8 @@
 
 namespace Davesweb\LaravelTranslatable\Tests\Models;
 
-use Davesweb\LaravelTranslatable\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
+use Davesweb\LaravelTranslatable\Traits\HasTranslations;
 
 /**
  * @property string $untranslated
